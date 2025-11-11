@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h3 class="text-center">🗑️ Borrar Servicio</h3>
+            </div>
+            <div class="card-body text-center">
+                {% if servicio.imagen %}
+                <div class="text-center mb-4">
+                    <img src="{{ servicio.imagen.url }}" class="servicio-img" alt="{{ servicio.nombre }}" style="max-height: 150px;">
+                </div>
+                {% endif %}
+                
+                <div class="alert alert-warning">
+                    <h4>¿Estás seguro de que deseas borrar este servicio?</h4>
+                    <p><strong>{{ servicio.nombre }}</strong></p>
+                    <p><strong>Tipo:</strong> {{ servicio.tipo_servicio }}</p>
+                    <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
+                    <p><strong>Duración:</strong> {{ servicio.duracion }} minutos</p>
+                    <p class="text-danger mt-3">
+                        <strong>⚠️ Advertencia:</strong> Si este servicio está asignado a empleados, también se eliminarán esas relaciones.
+                    </p>
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+                        <a href="{% url 'ver_servicios' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

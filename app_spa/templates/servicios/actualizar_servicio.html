@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="text-center">✏️ Actualizar Servicio</h3>
+            </div>
+            <div class="card-body">
+                {% if servicio.imagen %}
+                <div class="text-center mb-4">
+                    <img src="{{ servicio.imagen.url }}" class="servicio-img" alt="{{ servicio.nombre }}" style="max-height: 200px;">
+                    <p class="text-muted mt-2">Imagen actual del servicio</p>
+                </div>
+                {% endif %}
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Servicio:</label>
+                        <input type="text" class="form-control" name="nombre" value="{{ servicio.nombre }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Descripción:</label>
+                        <textarea class="form-control" name="descripcion" rows="3">{{ servicio.descripcion }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Precio ($):</label>
+                                <input type="number" step="0.01" class="form-control" name="precio" value="{{ servicio.precio }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Duración (minutos):</label>
+                                <input type="number" class="form-control" name="duracion" value="{{ servicio.duracion }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Servicio:</label>
+                        <select class="form-select" name="tipo_servicio" required>
+                            <option value="Masaje" {% if servicio.tipo_servicio == "Masaje" %}selected{% endif %}>Masaje</option>
+                            <option value="Facial" {% if servicio.tipo_servicio == "Facial" %}selected{% endif %}>Tratamiento Facial</option>
+                            <option value="Corporal" {% if servicio.tipo_servicio == "Corporal" %}selected{% endif %}>Tratamiento Corporal</option>
+                            <option value="Relajación" {% if servicio.tipo_servicio == "Relajación" %}selected{% endif %}>Relajación</option>
+                            <option value="Belleza" {% if servicio.tipo_servicio == "Belleza" %}selected{% endif %}>Belleza</option>
+                            <option value="Spa" {% if servicio.tipo_servicio == "Spa" %}selected{% endif %}>Spa Completo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Cambiar Imagen:</label>
+                        <input type="file" class="form-control" name="imagen" accept="image/*">
+                        <div class="form-text">Deja vacío para mantener la imagen actual</div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning me-2">Actualizar Servicio</button>
+                        <a href="{% url 'ver_servicios' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
